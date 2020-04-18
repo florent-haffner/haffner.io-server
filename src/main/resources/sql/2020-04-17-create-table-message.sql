@@ -3,6 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS MESSAGE (
     id SERIAL PRIMARY KEY,
-    message VARCHAR NULL,
+    message_requested VARCHAR(8190) NULL,
+    message_response VARCHAR(8190) NULL,
     in_error boolean NULL
 );

@@ -11,8 +11,11 @@ public class Message implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
-    private String message;
+    @Column(name = "message_requested")
+    private String messageRequested;
+
+    @Column(name = "message_response")
+    private String messageResponse;
 
     @Column(name = "in_error")
     private Boolean inError;
@@ -27,12 +30,20 @@ public class Message implements Serializable {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMessageRequested() {
+        return messageRequested;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessageRequested(String messageIN) {
+        this.messageRequested = messageIN;
+    }
+
+    public String getMessageResponse() {
+        return messageResponse;
+    }
+
+    public void setMessageResponse(String message) {
+        this.messageResponse = message;
     }
 
     public Boolean getInError() {

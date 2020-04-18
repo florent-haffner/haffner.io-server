@@ -1,11 +1,16 @@
 package haffner.ioserver.data.dto;
 
 public class MessageDTO {
-    String message;
+    String messageRequested;
+    String messageResponse;
     Boolean inError;
 
-    public String getMessage() {
-        return message;
+    public String getMessageRequested() {
+        return messageRequested;
+    }
+
+    public String getMessageResponse() {
+        return messageResponse;
     }
 
     public Boolean getInError() {
@@ -15,7 +20,8 @@ public class MessageDTO {
     @Override
     public String toString() {
         return "MessageDTO{" +
-            "message='" + message + '\'' +
+            "messageIn='" + messageRequested + '\'' +
+            ", messageOut='" + messageResponse + '\'' +
             ", inError=" + inError +
             '}';
     }
