@@ -32,8 +32,7 @@ public class MessageController {
 
     @PutMapping
     public ResponseEntity<Message> askChatbotThenStoreData(@RequestBody MessageDTO dtoRequest) throws ChatbotResponseError {
-        ResponseEntity<MessageDTO> response = sendMessageToChatbot(dtoRequest);
-        MessageDTO dtoResponse = response.getBody();
+        MessageDTO dtoResponse = sendMessageToChatbot(dtoRequest).getBody();
 
         Message message = new Message();
         message.setMessageRequested(dtoRequest.getMessageRequested());
@@ -45,18 +44,18 @@ public class MessageController {
     }
 
     @PostMapping("sendToChatbot")
-    public ResponseEntity<MessageDTO> sendMessageToChatbot(@RequestBody MessageDTO dto) throws ChatbotResponseError {
+    public ResponseEntity<MessageDTO> sendMessageToChatbot(@RequestBody MessageDTO dtoRequest) throws ChatbotResponseError {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<MessageDTO> entity = new HttpEntity<>(dto,headers);
+        HttpEntity<MessageDTO> entity = new HttpEntity<>(dtoRequest,headers);
 
-        MessageDTO response = restTemplate.exchange(
+        MessageDTO dtoResponse = restTemplate.exchange(
             "https://haffner-chatbot.herokuapp.com/message", HttpMethod.POST, entity, MessageDTO.class).getBody();
 
-        if (response == null) {
+        if (dtoResponse == null) {
             throw new ChatbotResponseError("Error during request handling");
         }
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(dtoResponse);
     }
 
 }
