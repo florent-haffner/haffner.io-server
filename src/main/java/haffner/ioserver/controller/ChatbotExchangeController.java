@@ -4,6 +4,7 @@ import haffner.ioserver.data.domain.ChatbotExchange;
 import haffner.ioserver.data.dto.ChatbotExchangeDTO;
 import haffner.ioserver.exceptions.ChatbotResponseError;
 import haffner.ioserver.repository.ChatbotExchangeRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,6 +22,9 @@ import java.util.Arrays;
 @RestController
 @RequestMapping("/chatbot")
 public class ChatbotExchangeController {
+
+    @Value("${chatbot.url}")
+    private String chatbotUrl;
 
     private final ChatbotExchangeRepository repository;
     private final RestTemplate restTemplate;
@@ -44,14 +48,14 @@ public class ChatbotExchangeController {
         return ResponseEntity.ok(chatbotExchange);
     }
 
-    @PostMapping("sendMessage")
+    @PostMapping("/sendMessage")
     public ResponseEntity<ChatbotExchangeDTO> sendMessageViaHTTP(@RequestBody ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<ChatbotExchangeDTO> entity = new HttpEntity<>(dtoRequest, headers);
 
         ChatbotExchangeDTO dtoResponse = restTemplate.exchange(
-            "https://haffner-chatbot.herokuapp.com/message", HttpMethod.POST, entity, ChatbotExchangeDTO.class
+            chatbotUrl + "/message", HttpMethod.POST, entity, ChatbotExchangeDTO.class
         ).getBody();
 
         if (dtoResponse == null) {
