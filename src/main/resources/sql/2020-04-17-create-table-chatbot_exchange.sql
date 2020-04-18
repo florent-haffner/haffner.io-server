@@ -6,5 +6,6 @@ CREATE TABLE IF NOT EXISTS chatbot_exchange (
     message_requested VARCHAR(8190) NULL,
     message_response VARCHAR(8190) NULL,
     in_error boolean NULL,
-    user_id varchar NOT NULL
+    user_id varchar NOT NULL,
+    date_of_creation TIMESTAMP NOT NULL
 );
