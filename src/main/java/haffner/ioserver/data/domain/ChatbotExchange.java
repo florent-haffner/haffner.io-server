@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "MESSAGE")
-public class Message implements Serializable {
+@Table(name = "chatbot_exchange")
+public class ChatbotExchange implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,10 @@ public class Message implements Serializable {
     @Column(name = "in_error")
     private Boolean inError;
 
-    public Message() { }
+    @Column(name = "user_id")
+    private String userId;
+
+    public ChatbotExchange() { }
 
     public Integer getId() {
         return id;
@@ -54,4 +57,11 @@ public class Message implements Serializable {
         this.inError = inError;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

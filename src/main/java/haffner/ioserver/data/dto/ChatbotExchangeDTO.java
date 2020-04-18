@@ -1,9 +1,10 @@
 package haffner.ioserver.data.dto;
 
-public class MessageDTO {
+public class ChatbotExchangeDTO {
     String messageRequested;
     String messageResponse;
     Boolean inError;
+    String userId;
 
     public String getMessageRequested() {
         return messageRequested;
@@ -17,12 +18,17 @@ public class MessageDTO {
         return inError;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
     @Override
     public String toString() {
-        return "MessageDTO{" +
-            "messageIn='" + messageRequested + '\'' +
-            ", messageOut='" + messageResponse + '\'' +
+        return "ChatbotExchangeDTO{" +
+            "messageRequested='" + messageRequested + '\'' +
+            ", messageResponse='" + messageResponse + '\'' +
             ", inError=" + inError +
+            ", userId='" + userId + '\'' +
             '}';
     }
 }

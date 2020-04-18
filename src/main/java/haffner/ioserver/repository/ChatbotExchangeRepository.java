@@ -1,9 +1,9 @@
 package haffner.ioserver.repository;
 
-import haffner.ioserver.data.domain.Message;
+import haffner.ioserver.data.domain.ChatbotExchange;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MessageRepository extends JpaRepository<Message, String> {
+public interface ChatbotExchangeRepository extends JpaRepository<ChatbotExchange, String> {
 }
