@@ -1,6 +1,6 @@
 package haffner.ioserver.controller;
 
-import haffner.ioserver.data.EmailDTO;
+import haffner.ioserver.data.dto.EmailDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
