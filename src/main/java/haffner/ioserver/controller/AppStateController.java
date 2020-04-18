@@ -25,7 +25,7 @@ public class AppStateController {
         this.restTemplate = restTemplate;
     }
 
-    public ResponseEntity<Map<String, String>> getChatbotState() throws ChatbotResponseError {
+    public ResponseEntity<Map<String, Boolean>> getChatbotState() throws ChatbotResponseError {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -38,14 +38,14 @@ public class AppStateController {
         return ResponseEntity.ok(response);
     }
     @GetMapping
-    public ResponseEntity<Map<String, String>> getEntireAppState() throws ChatbotResponseError {
+    public ResponseEntity<Map<String, Boolean>> getEntireAppState() throws ChatbotResponseError {
         Map chatbotResponse = getChatbotState().getBody();
 
-        Map<String, String> state = new HashMap<>();
-        state.put("server_online", String.valueOf(true));
+        Map<String, Boolean> state = new HashMap<>();
+        state.put("server_online", true);
 
         if (chatbotResponse.get("online_status").equals(true)) {
-            state.put("chatbot_online", String.valueOf(true));
+            state.put("chatbot_online", true);
         }
 
         return ResponseEntity.ok(state);
