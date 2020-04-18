@@ -11,4 +11,12 @@ public class MessageDTO {
     public Boolean getInError() {
         return inError;
     }
+
+    @Override
+    public String toString() {
+        return "MessageDTO{" +
+            "message='" + message + '\'' +
+            ", inError=" + inError +
+            '}';
+    }
 }
