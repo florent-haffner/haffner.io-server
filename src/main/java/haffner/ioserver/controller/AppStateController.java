@@ -28,7 +28,7 @@ public class AppStateController {
 
     @GetMapping
     public ResponseEntity<Map> getEntireAppState() throws ChatbotResponseError, ExecutionException, InterruptedException {
-        LOGGER.info("Requesting APIs for state information");
+        LOGGER.info("Index -> Requesting APIs for state information");
         Map state = appStateService.getEntireAppState();
         return ResponseEntity.ok(state);
     }

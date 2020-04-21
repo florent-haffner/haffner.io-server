@@ -3,64 +3,39 @@ package haffner.ioserver.controller;
 import haffner.ioserver.data.domain.ChatbotExchange;
 import haffner.ioserver.data.dto.ChatbotExchangeDTO;
 import haffner.ioserver.exceptions.ChatbotResponseError;
-import haffner.ioserver.repository.ChatbotExchangeRepository;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import haffner.ioserver.service.ChatbotExchangeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.Arrays;
 
 @RestController
 @RequestMapping("/chatbot")
 public class ChatbotExchangeController {
 
-    @Value("${chatbot.url}")
-    private String chatbotUrl;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChatbotExchangeController.class);
 
-    private final ChatbotExchangeRepository repository;
-    private final RestTemplate restTemplate;
+    private final ChatbotExchangeService chatbotExchangeService;
 
-    public ChatbotExchangeController(ChatbotExchangeRepository repository, RestTemplate restTemplate) {
-        this.repository = repository;
-        this.restTemplate = restTemplate;
+    public ChatbotExchangeController(ChatbotExchangeService chatbotExchangeService) {
+        this.chatbotExchangeService = chatbotExchangeService;
     }
 
     @PutMapping
     public ResponseEntity<ChatbotExchange> askThenStoreData(@RequestBody ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
-        ChatbotExchangeDTO dtoResponse = sendMessageViaHTTP(dtoRequest).getBody();
-
-        ChatbotExchange chatbotExchange = new ChatbotExchange();
-        chatbotExchange.setUserId(dtoRequest.getUserId());
-        chatbotExchange.setMessageRequested(dtoRequest.getMessageRequested());
-        chatbotExchange.setMessageResponse(dtoResponse.getMessageResponse());
-        chatbotExchange.setInError(dtoResponse.getInError());
-
-        repository.save(chatbotExchange);
-        return ResponseEntity.ok(chatbotExchange);
+        LOGGER.info("/Chatbot -> Asking then storing the following message : {}", dtoRequest);
+        ChatbotExchange exchange = chatbotExchangeService.askThenStoreData(dtoRequest);
+        return ResponseEntity.ok(exchange);
     }
 
     @PostMapping("/sendMessage")
     public ResponseEntity<ChatbotExchangeDTO> sendMessageViaHTTP(@RequestBody ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<ChatbotExchangeDTO> entity = new HttpEntity<>(dtoRequest, headers);
-
-        ChatbotExchangeDTO dtoResponse = restTemplate.exchange(
-            chatbotUrl + "/message", HttpMethod.POST, entity, ChatbotExchangeDTO.class
-        ).getBody();
-
-        if (dtoResponse == null) {
-            throw new ChatbotResponseError("Error during request handling");
-        }
+        LOGGER.info("/Chatbot -> Sending the following message to chatbot : {}", dtoRequest);
+        ChatbotExchangeDTO dtoResponse = chatbotExchangeService.sendMessageViaHTTP(dtoRequest);
         return ResponseEntity.ok(dtoResponse);
     }
 
