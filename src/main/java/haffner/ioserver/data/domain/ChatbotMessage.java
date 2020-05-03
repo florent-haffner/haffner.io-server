@@ -11,34 +11,30 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "chatbot_exchange")
-public class ChatbotExchange implements Serializable {
+@Table(name = "chatbot_message")
+public class ChatbotMessage implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
-    @Column(name = "message_requested")
-    private String messageRequested;
-
-    @NotNull
-    @Column(name = "message_response")
-    private String messageResponse;
-
-    @NotNull
-    @Column(name = "in_error")
-    private Boolean inError;
+    @Column(name = "text")
+    private String text;
 
     @NotNull
     @Column(name = "date_of_creation")
     private Timestamp dateOfCreation;
 
     @NotNull
-    @Column(name = "user_id")
-    private String userId;
+    @Column(name = "conversation_id")
+    private String conversationId;
 
-    public ChatbotExchange() {
+    @NotNull
+    @Column(name = "user_id")
+    private Integer userId;
+
+    public ChatbotMessage() {
         this.dateOfCreation = new Timestamp(System.currentTimeMillis());
     }
 
@@ -50,28 +46,12 @@ public class ChatbotExchange implements Serializable {
         this.id = id;
     }
 
-    public String getMessageRequested() {
-        return messageRequested;
+    public String getText() {
+        return text;
     }
 
-    public void setMessageRequested(String messageIN) {
-        this.messageRequested = messageIN;
-    }
-
-    public String getMessageResponse() {
-        return messageResponse;
-    }
-
-    public void setMessageResponse(String message) {
-        this.messageResponse = message;
-    }
-
-    public Boolean getInError() {
-        return inError;
-    }
-
-    public void setInError(Boolean inError) {
-        this.inError = inError;
+    public void setText(String messageIN) {
+        this.text = messageIN;
     }
 
     public Timestamp getDateOfCreation() {
@@ -82,11 +62,19 @@ public class ChatbotExchange implements Serializable {
         this.dateOfCreation = timestamp;
     }
 
-    public String getUserId() {
+    public String getConversationId() {
+        return conversationId;
+    }
+
+    public void setConversationId(String conversationId) {
+        this.conversationId = conversationId;
+    }
+
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 }

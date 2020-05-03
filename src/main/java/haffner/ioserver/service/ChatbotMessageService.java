@@ -1,9 +1,9 @@
 package haffner.ioserver.service;
 
-import haffner.ioserver.data.domain.ChatbotExchange;
+import haffner.ioserver.data.domain.ChatbotMessage;
 import haffner.ioserver.data.dto.ChatbotExchangeDTO;
 import haffner.ioserver.exceptions.ChatbotResponseError;
-import haffner.ioserver.repository.ChatbotExchangeRepository;
+import haffner.ioserver.repository.ChatbotMessageRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,32 +13,43 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
-public class ChatbotExchangeService {
+public class ChatbotMessageService {
 
     @Value("${chatbot.url}")
     private String chatbotUrl;
 
-    private final ChatbotExchangeRepository repository;
+    private final ChatbotMessageRepository repository;
     private final RestTemplate restTemplate;
 
-    public ChatbotExchangeService(ChatbotExchangeRepository repository, RestTemplate restTemplate) {
+    public ChatbotMessageService(ChatbotMessageRepository repository, RestTemplate restTemplate) {
         this.repository = repository;
         this.restTemplate = restTemplate;
     }
 
-    public ChatbotExchange askThenStoreData(ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
+    public List<ChatbotMessage> findAllByConversationId(String conversationId) {
+        return repository.findByConversationId(conversationId);
+    }
+
+    public ChatbotMessage askThenStoreData(ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
         ChatbotExchangeDTO exchangeDTO = sendMessageViaHTTP(dtoRequest);
 
-        ChatbotExchange chatbotExchange = new ChatbotExchange();
-        chatbotExchange.setUserId(exchangeDTO.getUserId());
-        chatbotExchange.setMessageRequested(exchangeDTO.getMessageRequested());
-        chatbotExchange.setMessageResponse(exchangeDTO.getMessageResponse());
-        chatbotExchange.setInError(exchangeDTO.getInError());
+        ChatbotMessage chatbotMessage = new ChatbotMessage();
 
-        repository.save(chatbotExchange);
-        return chatbotExchange;
+        // Handle the position of message inside the DTO
+        if (dtoRequest.getMessageRequested() != null) {
+            chatbotMessage.setText(dtoRequest.getMessageResponse());
+        } else {
+            chatbotMessage.setText(dtoRequest.getMessageRequested());
+        }
+        chatbotMessage.setConversationId(exchangeDTO.getConversationId());
+        chatbotMessage.setUserId(exchangeDTO.getUserId());
+        chatbotMessage.setText(exchangeDTO.getMessageRequested());
+
+        repository.save(chatbotMessage);
+        return chatbotMessage;
     }
 
     public ChatbotExchangeDTO sendMessageViaHTTP(ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
@@ -54,6 +65,7 @@ public class ChatbotExchangeService {
         exchange.setUserId(dtoRequest.getUserId());
         exchange.setMessageRequested(dtoRequest.getMessageRequested());
         exchange.setMessageResponse(dtoResponse.getMessageResponse());
+        exchange.setConversationId(dtoRequest.getConversationId());
         exchange.setInError(dtoResponse.getInError());
 
         if (dtoResponse == null) {
