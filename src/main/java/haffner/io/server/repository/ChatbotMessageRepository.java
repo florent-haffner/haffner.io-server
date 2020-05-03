@@ -1,6 +1,6 @@
-package haffner.ioserver.repository;
+package haffner.io.server.repository;
 
-import haffner.ioserver.data.domain.ChatbotMessage;
+import haffner.io.server.data.domain.ChatbotMessage;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

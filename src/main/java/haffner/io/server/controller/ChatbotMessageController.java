@@ -1,9 +1,9 @@
-package haffner.ioserver.controller;
+package haffner.io.server.controller;
 
-import haffner.ioserver.data.domain.ChatbotMessage;
-import haffner.ioserver.data.dto.ChatbotExchangeDTO;
-import haffner.ioserver.exceptions.ChatbotResponseError;
-import haffner.ioserver.service.ChatbotMessageService;
+import haffner.io.server.service.ChatbotMessageService;
+import haffner.io.server.data.domain.ChatbotMessage;
+import haffner.io.server.data.dto.ChatbotExchangeDTO;
+import haffner.io.server.exceptions.ChatbotResponseError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

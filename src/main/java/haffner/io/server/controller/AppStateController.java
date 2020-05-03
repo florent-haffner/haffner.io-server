@@ -1,7 +1,7 @@
-package haffner.ioserver.controller;
+package haffner.io.server.controller;
 
-import haffner.ioserver.exceptions.ChatbotResponseError;
-import haffner.ioserver.service.AppStateService;
+import haffner.io.server.exceptions.ChatbotResponseError;
+import haffner.io.server.service.AppStateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @RestController

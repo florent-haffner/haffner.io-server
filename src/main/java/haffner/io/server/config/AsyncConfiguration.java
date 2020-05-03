@@ -1,4 +1,4 @@
-package haffner.ioserver.config;
+package haffner.io.server.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

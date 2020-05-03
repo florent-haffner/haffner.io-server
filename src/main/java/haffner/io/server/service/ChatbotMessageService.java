@@ -1,9 +1,9 @@
-package haffner.ioserver.service;
+package haffner.io.server.service;
 
-import haffner.ioserver.data.domain.ChatbotMessage;
-import haffner.ioserver.data.dto.ChatbotExchangeDTO;
-import haffner.ioserver.exceptions.ChatbotResponseError;
-import haffner.ioserver.repository.ChatbotMessageRepository;
+import haffner.io.server.data.domain.ChatbotMessage;
+import haffner.io.server.data.dto.ChatbotExchangeDTO;
+import haffner.io.server.exceptions.ChatbotResponseError;
+import haffner.io.server.repository.ChatbotMessageRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

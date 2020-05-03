@@ -1,6 +1,6 @@
-package haffner.ioserver.service;
+package haffner.io.server.service;
 
-import haffner.ioserver.exceptions.ChatbotResponseError;
+import haffner.io.server.exceptions.ChatbotResponseError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package haffner.ioserver.data.dto;
+package haffner.io.server.data.dto;
 
 public class EmailDTO {
     String email;

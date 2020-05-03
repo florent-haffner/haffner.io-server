@@ -1,4 +1,4 @@
-package haffner.ioserver.data.domain;
+package haffner.io.server.data.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,16 +11,20 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "chatbot_message")
-public class ChatbotMessage implements Serializable {
+@Table(name = "chatbot_message_in_error")
+public class ChatbotMessageInError implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
-    @Column(name = "text")
-    private String text;
+    @Column(name = "message_requested")
+    private String messageRequested;
+
+    @NotNull
+    @Column(name = "message_response")
+    private String messageResponse;
 
     @NotNull
     @Column(name = "date_of_creation")
@@ -30,11 +34,7 @@ public class ChatbotMessage implements Serializable {
     @Column(name = "conversation_id")
     private String conversationId;
 
-    @NotNull
-    @Column(name = "user_id")
-    private Integer userId;
-
-    public ChatbotMessage() {
+    public ChatbotMessageInError() {
         this.dateOfCreation = new Timestamp(System.currentTimeMillis());
     }
 
@@ -46,12 +46,20 @@ public class ChatbotMessage implements Serializable {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
+    public String getMessageRequested() {
+        return messageRequested;
     }
 
-    public void setText(String messageIN) {
-        this.text = messageIN;
+    public void setMessageRequested(String messageIN) {
+        this.messageRequested = messageIN;
+    }
+
+    public String getMessageResponse() {
+        return messageResponse;
+    }
+
+    public void setMessageResponse(String message) {
+        this.messageResponse = message;
     }
 
     public Timestamp getDateOfCreation() {
@@ -66,15 +74,7 @@ public class ChatbotMessage implements Serializable {
         return conversationId;
     }
 
-    public void setConversationId(String conversationId) {
-        this.conversationId = conversationId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setConversationId(String userId) {
+        this.conversationId = userId;
     }
 }

@@ -1,4 +1,4 @@
-package haffner.ioserver.data.domain;
+package haffner.io.server.data.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
