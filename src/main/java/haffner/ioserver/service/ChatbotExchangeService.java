@@ -9,10 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -32,13 +29,13 @@ public class ChatbotExchangeService {
     }
 
     public ChatbotExchange askThenStoreData(ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
-        ChatbotExchangeDTO dtoResponse = sendMessageViaHTTP(dtoRequest);
+        ChatbotExchangeDTO exchangeDTO = sendMessageViaHTTP(dtoRequest);
 
         ChatbotExchange chatbotExchange = new ChatbotExchange();
-        chatbotExchange.setUserId(dtoRequest.getUserId());
-        chatbotExchange.setMessageRequested(dtoRequest.getMessageRequested());
-        chatbotExchange.setMessageResponse(dtoResponse.getMessageResponse());
-        chatbotExchange.setInError(dtoResponse.getInError());
+        chatbotExchange.setUserId(exchangeDTO.getUserId());
+        chatbotExchange.setMessageRequested(exchangeDTO.getMessageRequested());
+        chatbotExchange.setMessageResponse(exchangeDTO.getMessageResponse());
+        chatbotExchange.setInError(exchangeDTO.getInError());
 
         repository.save(chatbotExchange);
         return chatbotExchange;
@@ -53,10 +50,16 @@ public class ChatbotExchangeService {
             chatbotUrl + "/message", HttpMethod.POST, entity, ChatbotExchangeDTO.class
         ).getBody();
 
+        ChatbotExchangeDTO exchange = new ChatbotExchangeDTO();
+        exchange.setUserId(dtoRequest.getUserId());
+        exchange.setMessageRequested(dtoRequest.getMessageRequested());
+        exchange.setMessageResponse(dtoResponse.getMessageResponse());
+        exchange.setInError(dtoResponse.getInError());
+
         if (dtoResponse == null) {
             throw new ChatbotResponseError("Error during request handling");
         }
-        return dtoResponse;
+        return exchange;
     }
 
 }

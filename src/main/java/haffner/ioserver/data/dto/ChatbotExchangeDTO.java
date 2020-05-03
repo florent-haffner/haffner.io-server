@@ -22,6 +22,22 @@ public class ChatbotExchangeDTO {
         return userId;
     }
 
+    public void setMessageRequested(String messageRequested) {
+        this.messageRequested = messageRequested;
+    }
+
+    public void setMessageResponse(String messageResponse) {
+        this.messageResponse = messageResponse;
+    }
+
+    public void setInError(Boolean inError) {
+        this.inError = inError;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "ChatbotExchangeDTO{" +
