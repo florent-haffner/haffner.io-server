@@ -30,7 +30,7 @@ public class SpringSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:8000", "https://haffner.io"));
+        configuration.setAllowedOrigins(List.of("http://localhost:8000", "https://beta.haffner.io", "https://haffner.io"));
         configuration.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
