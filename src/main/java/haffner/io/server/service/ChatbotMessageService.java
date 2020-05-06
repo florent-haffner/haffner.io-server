@@ -53,18 +53,18 @@ public class ChatbotMessageService {
         ).getBody();
 
         ChatbotExchangeDTO exchange = new ChatbotExchangeDTO();
-        exchange.setUserId(dtoRequest.getUserId());
-        exchange.setMessageRequested(dtoRequest.getMessageRequested());
+        exchange.setMessageRequest(dtoRequest.getMessageRequest());
         exchange.setMessageResponse(dtoResponse.getMessageResponse());
         exchange.setConversationId(dtoRequest.getConversationId());
         exchange.setInError(dtoResponse.getInError());
+        exchange.setUserId(dtoResponse.getUserId());
         return exchange;
     }
 
     public ChatbotMessage messageBuilder(ChatbotExchangeDTO dto) {
         ChatbotMessage message = new ChatbotMessage();
         if (dto.getMessageResponse() == null) {
-            message.setText(dto.getMessageRequested());
+            message.setText(dto.getMessageRequest());
         } else {
             message.setText(dto.getMessageResponse());
         }

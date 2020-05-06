@@ -1,14 +1,14 @@
 package haffner.io.server.data.dto;
 
 public class ChatbotExchangeDTO {
-    String messageRequested;
+    String messageRequest;
     String messageResponse;
     Boolean inError;
     String conversationId;
     Integer userId;
 
-    public String getMessageRequested() {
-        return messageRequested;
+    public String getMessageRequest() {
+        return messageRequest;
     }
 
     public String getMessageResponse() {
@@ -23,8 +23,8 @@ public class ChatbotExchangeDTO {
         return userId;
     }
 
-    public void setMessageRequested(String messageRequested) {
-        this.messageRequested = messageRequested;
+    public void setMessageRequest(String messageRequest) {
+        this.messageRequest = messageRequest;
     }
 
     public void setMessageResponse(String messageResponse) {
@@ -50,7 +50,7 @@ public class ChatbotExchangeDTO {
     @Override
     public String toString() {
         return "ChatbotExchangeDTO{" +
-                "messageRequested='" + messageRequested + '\'' +
+                "messageRequested='" + messageRequest + '\'' +
                 ", messageResponse='" + messageResponse + '\'' +
                 ", inError=" + inError +
                 ", conversationId='" + conversationId + '\'' +
