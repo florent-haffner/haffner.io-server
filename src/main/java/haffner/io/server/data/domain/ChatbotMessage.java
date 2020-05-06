@@ -30,7 +30,6 @@ public class ChatbotMessage implements Serializable {
     @Column(name = "conversation_id")
     private String conversationId;
 
-    @NotNull
     @Column(name = "user_id")
     private Integer userId;
 

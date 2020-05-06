@@ -31,16 +31,16 @@ public class ChatbotMessageController {
     }
 
     @PutMapping
-    public ResponseEntity<ChatbotMessage> askThenStoreData(@RequestBody ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
-        LOGGER.info("/Chatbot -> Ask then store the following message : {}", dtoRequest);
-        ChatbotMessage exchange = chatbotMessageService.askThenStoreData(dtoRequest);
+    public ResponseEntity<ChatbotExchangeDTO> askThenStoreData(@RequestBody ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
+        LOGGER.info("/Chatbot -> Ask then store the following conversation: {}", dtoRequest);
+        ChatbotExchangeDTO exchange = chatbotMessageService.askThenStoreData(dtoRequest);
         return ResponseEntity.ok(exchange);
     }
 
     @PostMapping("/sendMessage")
     public ResponseEntity<ChatbotExchangeDTO> sendMessageViaHTTP(@RequestBody ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
         LOGGER.info("/Chatbot -> Sending the following message : {}", dtoRequest);
-        ChatbotExchangeDTO dtoResponse = chatbotMessageService.sendMessageViaHTTP(dtoRequest);
+        ChatbotExchangeDTO dtoResponse = chatbotMessageService.sendMessageToChatbotOnHTTP(dtoRequest);
         return ResponseEntity.ok(dtoResponse);
     }
 

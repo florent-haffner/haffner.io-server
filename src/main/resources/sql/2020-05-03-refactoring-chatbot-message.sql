@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS chatbot_message
     id               SERIAL PRIMARY KEY,
     text             VARCHAR(8190) NULL,
     conversation_id  varchar       NOT NULL,
-    user_id          int           NOT NULL,
+    user_id          int           NULL,
     date_of_creation TIMESTAMP     NOT NULL
 );
 

@@ -33,32 +33,23 @@ public class ChatbotMessageService {
         return repository.findByConversationId(conversationId);
     }
 
-    public ChatbotMessage askThenStoreData(ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
-        ChatbotExchangeDTO exchangeDTO = sendMessageViaHTTP(dtoRequest);
+    public ChatbotExchangeDTO askThenStoreData(ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
+        ChatbotMessage userMessage = messageBuilder(dtoRequest);
+        repository.save(userMessage);
 
-        ChatbotMessage chatbotMessage = new ChatbotMessage();
-
-        // Handle the position of message inside the DTO
-        if (dtoRequest.getMessageRequested() != null) {
-            chatbotMessage.setText(dtoRequest.getMessageResponse());
-        } else {
-            chatbotMessage.setText(dtoRequest.getMessageRequested());
-        }
-        chatbotMessage.setConversationId(exchangeDTO.getConversationId());
-        chatbotMessage.setUserId(exchangeDTO.getUserId());
-        chatbotMessage.setText(exchangeDTO.getMessageRequested());
-
-        repository.save(chatbotMessage);
-        return chatbotMessage;
+        ChatbotExchangeDTO exchangeDTO = sendMessageToChatbotOnHTTP(dtoRequest);
+        ChatbotMessage chatbotResponse = messageBuilder(exchangeDTO);
+        repository.save(chatbotResponse);
+        return exchangeDTO;
     }
 
-    public ChatbotExchangeDTO sendMessageViaHTTP(ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
+    public ChatbotExchangeDTO sendMessageToChatbotOnHTTP(ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<ChatbotExchangeDTO> entity = new HttpEntity<>(dtoRequest, headers);
 
         ChatbotExchangeDTO dtoResponse = restTemplate.exchange(
-            chatbotUrl + "/message", HttpMethod.POST, entity, ChatbotExchangeDTO.class
+                chatbotUrl + "/message", HttpMethod.POST, entity, ChatbotExchangeDTO.class
         ).getBody();
 
         ChatbotExchangeDTO exchange = new ChatbotExchangeDTO();
@@ -67,11 +58,19 @@ public class ChatbotMessageService {
         exchange.setMessageResponse(dtoResponse.getMessageResponse());
         exchange.setConversationId(dtoRequest.getConversationId());
         exchange.setInError(dtoResponse.getInError());
-
-        if (dtoResponse == null) {
-            throw new ChatbotResponseError("Error during request handling");
-        }
         return exchange;
+    }
+
+    public ChatbotMessage messageBuilder(ChatbotExchangeDTO dto) {
+        ChatbotMessage message = new ChatbotMessage();
+        if (dto.getMessageResponse() == null) {
+            message.setText(dto.getMessageRequested());
+        } else {
+            message.setText(dto.getMessageResponse());
+        }
+        message.setConversationId(dto.getConversationId());
+        message.setUserId(dto.getUserId());
+        return message;
     }
 
 }
