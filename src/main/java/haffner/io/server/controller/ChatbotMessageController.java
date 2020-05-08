@@ -24,7 +24,7 @@ public class ChatbotMessageController {
     }
 
     @GetMapping("/{conversationId}")
-    public ResponseEntity<List<ChatbotMessage>> findAllMessagesByConversationId(@PathVariable String conversationId) {
+    public ResponseEntity<List<ChatbotMessage>> findAllMessagesByConversationId(@PathVariable String conversationId) throws ChatbotResponseError {
         LOGGER.info("/Chatbot -> Asking messages by conversation: {}", conversationId);
         List<ChatbotMessage> messages = chatbotMessageService.findAllByConversationId(conversationId);
         return ResponseEntity.ok(messages);

@@ -29,8 +29,18 @@ public class ChatbotMessageService {
         this.restTemplate = restTemplate;
     }
 
-    public List<ChatbotMessage> findAllByConversationId(String conversationId) {
-        return repository.findByConversationId(conversationId);
+    public List<ChatbotMessage> findAllByConversationId(String conversationId) throws ChatbotResponseError {
+        List<ChatbotMessage> messages = repository.findByConversationId(conversationId);
+        if (messages.isEmpty()) {
+            ChatbotExchangeDTO requestDto = new ChatbotExchangeDTO();
+            requestDto.setMessageRequest("automatic_greetings");
+            requestDto.setConversationId(conversationId);
+            ChatbotExchangeDTO responseDto = sendMessageToChatbotOnHTTP(requestDto);
+            ChatbotMessage chatbotResponse = messageBuilder(responseDto);
+            repository.save(chatbotResponse);
+            messages = repository.findByConversationId(conversationId);
+        }
+        return messages;
     }
 
     public ChatbotExchangeDTO askThenStoreData(ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
