@@ -19,7 +19,6 @@ public class CorsConfig implements WebMvcConfigurer {
         config.addAllowedOrigin("https://haffner.io");
         config.addAllowedOrigin("https://beta.haffner.io");
         config.addAllowedHeader("*");
-        config.addAllowedMethod("OPTIONS");
         config.addAllowedMethod("GET");
         config.addAllowedMethod("POST");
         config.addAllowedMethod("PUT");
