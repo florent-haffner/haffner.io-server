@@ -15,7 +15,7 @@ public class WebConfiguration implements WebMvcConfigurer {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/*").allowedOrigins(
                         "http://localhost:8000",
-                        "https://haffner-server.herokuapp.com/"
+                        "https://beta.haffner.io/"
                 );
             }
         };
