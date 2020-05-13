@@ -31,7 +31,7 @@ public class ChatbotMessageService {
 
     public List<ChatbotMessage> findAllByConversationId(String conversationId) throws ChatbotResponseError {
         List<ChatbotMessage> messages = repository.findByConversationId(conversationId);
-        /*if (messages.isEmpty()) {
+        if (messages.isEmpty()) {
             ChatbotExchangeDTO requestDto = new ChatbotExchangeDTO();
             requestDto.setMessageRequest("automatic_greetings");
             requestDto.setConversationId(conversationId);
@@ -39,7 +39,7 @@ public class ChatbotMessageService {
             ChatbotMessage chatbotResponse = messageBuilder(responseDto);
             repository.save(chatbotResponse);
             messages = repository.findByConversationId(conversationId);
-        }*/
+        }
         return messages;
     }
 
