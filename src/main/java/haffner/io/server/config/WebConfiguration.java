@@ -13,7 +13,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/*").allowedOrigins(
+                registry.addMapping("/**").allowedOrigins(
                         "http://localhost:8000",
                         "https://beta.haffner.io/"
                 );
