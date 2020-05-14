@@ -33,7 +33,7 @@ public class ChatbotMessageService {
         List<ChatbotMessage> messages = repository.findByConversationId(conversationId);
         if (messages.isEmpty()) {
             ChatbotExchangeDTO requestDto = new ChatbotExchangeDTO();
-            requestDto.setMessageRequest("automatic_greetings");
+            requestDto.setMessageRequest("automatic greetings");
             requestDto.setConversationId(conversationId);
             ChatbotExchangeDTO responseDto = sendMessageToChatbotOnHTTP(requestDto);
             ChatbotMessage chatbotResponse = messageBuilder(responseDto);
