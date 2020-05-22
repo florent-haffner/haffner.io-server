@@ -2,7 +2,6 @@ package haffner.io.server.service;
 
 import haffner.io.server.data.domain.ChatbotMessage;
 import haffner.io.server.data.dto.ChatbotExchangeDTO;
-import haffner.io.server.exceptions.ChatbotResponseError;
 import haffner.io.server.repository.ChatbotMessageRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -29,31 +28,21 @@ public class ChatbotMessageService {
         this.restTemplate = restTemplate;
     }
 
-    public List<ChatbotMessage> findAllByConversationId(String conversationId) throws ChatbotResponseError {
-        List<ChatbotMessage> messages = repository.findByConversationId(conversationId);
-        if (messages.isEmpty()) {
-            ChatbotExchangeDTO requestDto = new ChatbotExchangeDTO();
-            requestDto.setMessageRequest("automatic greetings");
-            requestDto.setConversationId(conversationId);
-            ChatbotExchangeDTO responseDto = sendMessageToChatbotOnHTTP(requestDto);
-            ChatbotMessage chatbotResponse = messageBuilder(responseDto);
-            repository.save(chatbotResponse);
-            messages = repository.findByConversationId(conversationId);
-        }
-        return messages;
+    public List<ChatbotMessage> findAllByConversationId(String conversationId) {
+        return repository.findByConversationId(conversationId);
     }
 
-    public ChatbotExchangeDTO askThenStoreData(ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
+    public ChatbotExchangeDTO askThenStoreData(ChatbotExchangeDTO dtoRequest) {
         ChatbotMessage userMessage = messageBuilder(dtoRequest);
         repository.save(userMessage);
 
-        ChatbotExchangeDTO exchangeDTO = sendMessageToChatbotOnHTTP(dtoRequest);
+        ChatbotExchangeDTO exchangeDTO = sendMessageOnHTTP(dtoRequest);
         ChatbotMessage chatbotResponse = messageBuilder(exchangeDTO);
         repository.save(chatbotResponse);
         return exchangeDTO;
     }
 
-    public ChatbotExchangeDTO sendMessageToChatbotOnHTTP(ChatbotExchangeDTO dtoRequest) throws ChatbotResponseError {
+    public ChatbotExchangeDTO sendMessageOnHTTP(ChatbotExchangeDTO dtoRequest) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<ChatbotExchangeDTO> entity = new HttpEntity<>(dtoRequest, headers);
