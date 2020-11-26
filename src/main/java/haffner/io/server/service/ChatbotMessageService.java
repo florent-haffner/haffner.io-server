@@ -1,8 +1,11 @@
 package haffner.io.server.service;
 
+import haffner.io.server.controller.ChatbotMessageController;
 import haffner.io.server.data.domain.ChatbotMessage;
 import haffner.io.server.data.dto.ChatbotExchangeDTO;
 import haffner.io.server.repository.ChatbotMessageRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +19,10 @@ import java.util.List;
 
 @Service
 public class ChatbotMessageService {
+
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChatbotMessageController.class);
+
 
     @Value("${chatbot.url}")
     private String chatbotUrl;
@@ -39,6 +46,8 @@ public class ChatbotMessageService {
         ChatbotExchangeDTO exchangeDTO = sendMessageOnHTTP(dtoRequest);
         ChatbotMessage chatbotResponse = messageBuilder(exchangeDTO);
         repository.save(chatbotResponse);
+
+        LOGGER.info("/Chatbot -> Storing the following message : {}", chatbotResponse);
         return exchangeDTO;
     }
 
@@ -55,8 +64,10 @@ public class ChatbotMessageService {
         exchange.setMessageRequest(dtoRequest.getMessageRequest());
         exchange.setMessageResponse(dtoResponse.getMessageResponse());
         exchange.setConversationId(dtoRequest.getConversationId());
-        exchange.setInError(dtoResponse.getInError());
+        exchange.setConversationId(dtoRequest.getConversationId());
+        exchange.setChatbotRevision(dtoResponse.getChatbotRevision());
         exchange.setUserId(dtoResponse.getUserId());
+        exchange.setInError(dtoResponse.getInError());
         return exchange;
     }
 
@@ -67,6 +78,8 @@ public class ChatbotMessageService {
         } else {
             message.setText(dto.getMessageResponse());
         }
+        message.setIn_error(dto.getInError());
+        message.setChatbotRevision(dto.getChatbotRevision());
         message.setConversationId(dto.getConversationId());
         message.setUserId(dto.getUserId());
         return message;

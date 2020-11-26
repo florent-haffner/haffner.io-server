@@ -5,12 +5,16 @@
 - Java 11
 - PostgreSQL
 
-## Profiles
+### Environments
 
-Development -> `./mvnw spring-boot:run`
+#### Development
 
-Production
+> `docker-compose -f src/main/resources/docker/postgres-db.yml up -d`
 
-> `./mvnw clean package -Pprod`
+> `./mvnw spring-boot:run -Pdev`
+
+#### Production (default)
+
+> `./mvnw clean package`
 
 > `java -jar target/haffner.io-server-0.0.1-SNAPSHOT.jar`

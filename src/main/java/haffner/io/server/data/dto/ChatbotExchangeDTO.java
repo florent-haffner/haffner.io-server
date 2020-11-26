@@ -5,6 +5,7 @@ public class ChatbotExchangeDTO {
     String messageResponse;
     Boolean inError;
     String conversationId;
+    Float chatbotRevision;
     Integer userId;
 
     public String getMessageRequest() {
@@ -19,10 +20,6 @@ public class ChatbotExchangeDTO {
         return inError;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
     public void setMessageRequest(String messageRequest) {
         this.messageRequest = messageRequest;
     }
@@ -35,10 +32,6 @@ public class ChatbotExchangeDTO {
         this.inError = inError;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
     public String getConversationId() {
         return conversationId;
     }
@@ -47,14 +40,31 @@ public class ChatbotExchangeDTO {
         this.conversationId = conversationId;
     }
 
+    public Float getChatbotRevision() {
+        return chatbotRevision;
+    }
+
+    public void setChatbotRevision(Float chatbotRevision) {
+        this.chatbotRevision = chatbotRevision;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "ChatbotExchangeDTO{" +
-                "messageRequested='" + messageRequest + '\'' +
+                "messageRequest='" + messageRequest + '\'' +
                 ", messageResponse='" + messageResponse + '\'' +
                 ", inError=" + inError +
                 ", conversationId='" + conversationId + '\'' +
-                ", userId='" + userId + '\'' +
+                ", chatbotRevision=" + chatbotRevision +
+                ", userId=" + userId +
                 '}';
     }
 }
