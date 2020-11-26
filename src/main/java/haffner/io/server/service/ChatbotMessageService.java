@@ -64,7 +64,9 @@ public class ChatbotMessageService {
         exchange.setMessageRequest(dtoRequest.getMessageRequest());
         exchange.setMessageResponse(dtoResponse.getMessageResponse());
         exchange.setConversationId(dtoRequest.getConversationId());
+        exchange.setConversationId(dtoRequest.getConversationId());
         exchange.setChatbotRevision(dtoResponse.getChatbotRevision());
+        exchange.setUserId(dtoResponse.getUserId());
         exchange.setInError(dtoResponse.getInError());
         return exchange;
     }
@@ -79,6 +81,7 @@ public class ChatbotMessageService {
         message.setIn_error(dto.getInError());
         message.setChatbotRevision(dto.getChatbotRevision());
         message.setConversationId(dto.getConversationId());
+        message.setUserId(dto.getUserId());
         return message;
     }
 

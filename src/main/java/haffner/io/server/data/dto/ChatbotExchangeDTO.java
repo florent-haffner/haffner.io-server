@@ -6,6 +6,7 @@ public class ChatbotExchangeDTO {
     Boolean inError;
     String conversationId;
     Float chatbotRevision;
+    Integer userId;
 
     public String getMessageRequest() {
         return messageRequest;
@@ -47,13 +48,23 @@ public class ChatbotExchangeDTO {
         this.chatbotRevision = chatbotRevision;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "ChatbotExchangeDTO{" +
                 "messageRequest='" + messageRequest + '\'' +
                 ", messageResponse='" + messageResponse + '\'' +
                 ", inError=" + inError +
+                ", conversationId='" + conversationId + '\'' +
                 ", chatbotRevision=" + chatbotRevision +
+                ", userId=" + userId +
                 '}';
     }
 }
