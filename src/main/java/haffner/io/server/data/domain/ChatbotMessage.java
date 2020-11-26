@@ -30,8 +30,11 @@ public class ChatbotMessage implements Serializable {
     @Column(name = "conversation_id")
     private String conversationId;
 
-    @Column(name = "user_id")
-    private Integer userId;
+    @Column(name = "chatbot_revision")
+    private Float chatbotRevision;
+
+    @Column(name = "is_in_error")
+    private Boolean in_error;
 
     public ChatbotMessage() {
         this.dateOfCreation = new Timestamp(System.currentTimeMillis());
@@ -69,11 +72,19 @@ public class ChatbotMessage implements Serializable {
         this.conversationId = conversationId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Float getChatbotRevision() {
+        return chatbotRevision;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setChatbotRevision(Float chatbotRevision) {
+        this.chatbotRevision = chatbotRevision;
+    }
+
+    public Boolean getIn_error() {
+        return in_error;
+    }
+
+    public void setIn_error(Boolean in_error) {
+        this.in_error = in_error;
     }
 }

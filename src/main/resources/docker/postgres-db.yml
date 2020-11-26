@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+
+  database:
+    image: postgres:11.2-alpine
+    container_name: haffnerio-db
+    restart: always
+    environment:
+      - POSTGRES_DB=haffnerio
+      - POSTGRES_USER=haffnerio
+      - POSTGRES_PASSWORD=dev
+      - POSTGRES_USER=dev
+#    volumes:
+#      - '$HOME/project/postgres:/var/lib/postgresql/data'
+    ports:
+      - 5432:5432
+
+#  pg_admin:
+#    image: thajeztah/pgadmin4
+#    container_name: pg-admin
+#    restart: always
+#    ports:
+#      - 5050:5050
+
