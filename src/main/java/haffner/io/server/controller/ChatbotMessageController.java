@@ -1,5 +1,6 @@
 package haffner.io.server.controller;
 
+import haffner.io.server.data.domain.ChatbotStats;
 import haffner.io.server.service.ChatbotMessageService;
 import haffner.io.server.data.domain.ChatbotMessage;
 import haffner.io.server.data.dto.ChatbotExchangeDTO;
@@ -47,6 +48,13 @@ public class ChatbotMessageController {
         LOGGER.info("/Chatbot -> Sending the following message : {}", dtoRequest);
         ChatbotExchangeDTO dtoResponse = chatbotMessageService.sendMessageOnHTTP(dtoRequest);
         return ResponseEntity.ok(dtoResponse);
+    }
+
+    @PutMapping("/stats/calculate")
+    public ResponseEntity<ChatbotStats> calculateStats() {
+        LOGGER.info("/Chatbot -> Calculate stats for the current day");
+        ChatbotStats stats = chatbotMessageService.calculateStats();
+        return ResponseEntity.ok(stats);
     }
 
 }
