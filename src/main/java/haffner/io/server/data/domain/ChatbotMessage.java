@@ -1,7 +1,5 @@
 package haffner.io.server.data.domain;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +30,6 @@ public class ChatbotMessage implements Serializable {
     @Column(name = "conversation_id")
     private String conversationId;
 
-    @Value("0")
     @Column(name = "user_id")
     private Integer userId;
 
@@ -44,6 +41,7 @@ public class ChatbotMessage implements Serializable {
 
     public ChatbotMessage() {
         this.dateOfCreation = new Timestamp(System.currentTimeMillis());
+        this.userId = 0;
     }
 
     public Integer getId() {
