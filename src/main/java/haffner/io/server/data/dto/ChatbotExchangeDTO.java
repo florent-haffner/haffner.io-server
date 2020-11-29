@@ -56,6 +56,11 @@ public class ChatbotExchangeDTO {
         this.userId = userId;
     }
 
+    public ChatbotExchangeDTO() {
+        this.userId = 0;
+        this.inError = false;
+    }
+
     @Override
     public String toString() {
         return "ChatbotExchangeDTO{" +
