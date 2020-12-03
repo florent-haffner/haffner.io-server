@@ -1,6 +1,6 @@
 package haffner.io.server.service;
 
-import haffner.io.server.controller.ChatbotMessageController;
+import haffner.io.server.controller.ChatbotController;
 import haffner.io.server.data.domain.ChatbotMessage;
 import haffner.io.server.data.domain.ChatbotStats;
 import haffner.io.server.data.dto.ChatbotExchangeDTO;
@@ -22,10 +22,10 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class ChatbotMessageService {
+public class ChatbotService {
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChatbotMessageController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChatbotController.class);
 
 
     @Value("${chatbot.url}")
@@ -35,7 +35,7 @@ public class ChatbotMessageService {
     private final ChatbotStatsRepository statsRepository;
     private final RestTemplate restTemplate;
 
-    public ChatbotMessageService(ChatbotMessageRepository messageRepository, ChatbotStatsRepository statsRepository, RestTemplate restTemplate) {
+    public ChatbotService(ChatbotMessageRepository messageRepository, ChatbotStatsRepository statsRepository, RestTemplate restTemplate) {
         this.messageRepository = messageRepository;
         this.statsRepository = statsRepository;
         this.restTemplate = restTemplate;
@@ -89,6 +89,10 @@ public class ChatbotMessageService {
         message.setConversationId(dto.getConversationId());
         message.setUserId(dto.getUserId());
         return message;
+    }
+
+    public List<ChatbotStats> getStats() {
+        return statsRepository.findAll();
     }
 
     @Transactional
