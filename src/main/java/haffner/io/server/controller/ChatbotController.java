@@ -1,7 +1,7 @@
 package haffner.io.server.controller;
 
 import haffner.io.server.data.domain.ChatbotStats;
-import haffner.io.server.service.ChatbotMessageService;
+import haffner.io.server.service.ChatbotService;
 import haffner.io.server.data.domain.ChatbotMessage;
 import haffner.io.server.data.dto.ChatbotExchangeDTO;
 import org.slf4j.Logger;
@@ -19,41 +19,48 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/chatbot")
-public class ChatbotMessageController {
+public class ChatbotController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChatbotMessageController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChatbotController.class);
 
-    private final ChatbotMessageService chatbotMessageService;
+    private final ChatbotService chatbotService;
 
-    public ChatbotMessageController(ChatbotMessageService chatbotMessageService) {
-        this.chatbotMessageService = chatbotMessageService;
+    public ChatbotController(ChatbotService chatbotService) {
+        this.chatbotService = chatbotService;
     }
 
     @GetMapping("/{conversationId}")
     public ResponseEntity<List<ChatbotMessage>> findAllMessagesByConversationId(@PathVariable String conversationId) {
         LOGGER.info("/Chatbot -> Asking messages by conversation: {}", conversationId);
-        List<ChatbotMessage> messages = chatbotMessageService.findAllByConversationId(conversationId);
+        List<ChatbotMessage> messages = chatbotService.findAllByConversationId(conversationId);
         return ResponseEntity.ok(messages);
     }
 
     @PutMapping
     public ResponseEntity<ChatbotExchangeDTO> askThenStoreData(@RequestBody ChatbotExchangeDTO dtoRequest) {
         LOGGER.info("/Chatbot -> Ask then store the following conversation: {}", dtoRequest);
-        ChatbotExchangeDTO exchange = chatbotMessageService.askThenStoreData(dtoRequest);
+        ChatbotExchangeDTO exchange = chatbotService.askThenStoreData(dtoRequest);
         return ResponseEntity.ok(exchange);
     }
 
     @PostMapping("/sendMessage")
     public ResponseEntity<ChatbotExchangeDTO> sendMessageViaHTTP(@RequestBody ChatbotExchangeDTO dtoRequest) {
         LOGGER.info("/Chatbot -> Sending the following message : {}", dtoRequest);
-        ChatbotExchangeDTO dtoResponse = chatbotMessageService.sendMessageOnHTTP(dtoRequest);
+        ChatbotExchangeDTO dtoResponse = chatbotService.sendMessageOnHTTP(dtoRequest);
         return ResponseEntity.ok(dtoResponse);
+    }
+
+    @GetMapping("/stats/")
+    public ResponseEntity<List<ChatbotStats>> getStats() {
+        LOGGER.info("/Chatbot/stats/ -> Get all stats available.");
+        List<ChatbotStats> stats = chatbotService.getStats();
+        return ResponseEntity.ok(stats);
     }
 
     @PutMapping("/stats/calculate")
     public ResponseEntity<ChatbotStats> calculateStats() {
-        LOGGER.info("/Chatbot -> Calculate stats for the current day");
-        ChatbotStats stats = chatbotMessageService.calculateStats();
+        LOGGER.info("/Chatbot/stats/calculate -> Calculate stats for the current day.");
+        ChatbotStats stats = chatbotService.calculateStats();
         return ResponseEntity.ok(stats);
     }
 
